@@ -23,8 +23,7 @@ export const MovieItem: FC<{
 				</h3>
 				{favorited ? (
 					<button
-						hx-post={`/favorite/${movie.id}`}
-						hx-vals={JSON.stringify(movie)}
+						hx-delete={`/favorite/${movie.id}`}
 						hx-target={remove ? "closest li" : "this"}
 						hx-swap={remove ? "delete" : "outerHTML"}
 						hx-select={remove ? ".movie" : "[type='button']"}
@@ -34,7 +33,7 @@ export const MovieItem: FC<{
 					</button>
 				) : (
 					<button
-						hx-post={`/favorite/${movie.id}`}
+						hx-post="/favorite"
 						hx-vals={JSON.stringify(movie)}
 						hx-select="[type='button']"
 						hx-swap="outerHTML"

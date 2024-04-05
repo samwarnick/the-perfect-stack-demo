@@ -95,22 +95,22 @@ app.post(
 	},
 );
 
-app.post("/favorite/:id", zValidator("form", insertMovieSchema), async (c) => {
+app.post("/favorite", zValidator("form", insertMovieSchema), async (c) => {
 	const movie = c.req.valid("form");
 
-	const alreadyFavorited = await db
-		.select()
-		.from(favoriteMovies)
-		.where(eq(favoriteMovies.id, movie.id));
-	let isNowFavorite = false;
-	if (alreadyFavorited.length > 0) {
-		await db.delete(favoriteMovies).where(eq(favoriteMovies.id, movie.id));
-	} else {
-		await db.insert(favoriteMovies).values(movie);
-		isNowFavorite = true;
-	}
+	await db.insert(favoriteMovies).values(movie);
+	return c.html(<MovieItem movie={movie} favorited={true} remove={false} />);
+});
+
+app.delete("/favorite/:id", async (c) => {
+	const id = Number.parseInt(c.req.param("id"));
+
+	const removed = await db
+		.delete(favoriteMovies)
+		.where(eq(favoriteMovies.id, id))
+		.returning();
 	return c.html(
-		<MovieItem movie={movie} favorited={isNowFavorite} remove={false} />,
+		<MovieItem movie={removed[0]} favorited={false} remove={false} />,
 	);
 });
 
