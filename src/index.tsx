@@ -102,13 +102,16 @@ app.post("/favorite/:id", zValidator("form", insertMovieSchema), async (c) => {
 		.select()
 		.from(favoriteMovies)
 		.where(eq(favoriteMovies.id, movie.id));
+	let isNowFavorite = false;
 	if (alreadyFavorited.length > 0) {
 		await db.delete(favoriteMovies).where(eq(favoriteMovies.id, movie.id));
-		return c.html(<MovieItem movie={movie} favorited={false} remove={false} />);
 	} else {
 		await db.insert(favoriteMovies).values(movie);
-		return c.html(<MovieItem movie={movie} favorited={true} remove={false} />);
+		isNowFavorite = true;
 	}
+	return c.html(
+		<MovieItem movie={movie} favorited={isNowFavorite} remove={false} />,
+	);
 });
 
 app.get("/favorites", async (c) => {
