@@ -1,3 +1,9 @@
+You need an API key for TMDB: https://developer.themoviedb.org/docs/getting-started
+Add a `.env` with:
+```
+TMDB_KEY=yourkey
+```
+
 To install dependencies:
 ```sh
 bun install
