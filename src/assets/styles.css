@@ -1,0 +1,18 @@
+.search-results {
+  list-style: none;
+}
+
+.movie {
+  display: flex;
+  gap: 1em;
+  margin-bottom: 1em;
+}
+
+.poster {
+  aspect-ratio: 3/2;
+  width: 100px;
+  
+  img {
+    border-radius: 0.5em;
+  }
+}
